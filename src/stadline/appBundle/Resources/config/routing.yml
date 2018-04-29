@@ -1,0 +1,3 @@
+stadlineapp_homepage:
+    path:     /
+    defaults: { _controller: stadlineappBundle:Default:index }
