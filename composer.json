@@ -26,6 +26,7 @@
         "guzzlehttp/psr7": "^1.4",
         "hwi/oauth-bundle": "^0.6.2",
         "incenteev/composer-parameter-handler": "^2.0",
+        "mashape/unirest-php": "^3.0",
         "php-http/client-common": "^1.7",
         "php-http/curl-client": "^1.7",
         "php-http/guzzle6-adapter": "*",

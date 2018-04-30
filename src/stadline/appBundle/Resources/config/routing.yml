@@ -1,3 +1,7 @@
 stadlineapp_homepage:
     path:     /
     defaults: { _controller: stadlineappBundle:Default:index }
+
+stadlineapp_annotations:
+    resource: '../src/stadline/appBundle/Controller/'
+    type:     annotation
