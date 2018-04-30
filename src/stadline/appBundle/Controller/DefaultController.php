@@ -31,11 +31,12 @@ class DefaultController extends Controller {
      */
     public function showRepos($userName, $page = 1) {
         $githubservice = new GitHubFinder();
-        $userList = $githubservice->getRepos($userName, $page);
+        $repoList = $githubservice->getRepos($userName, $page);
+
 
         $maxPage = $githubservice->getNbPage();
 
-        return $this->render('@stadlineapp/searchUser.html.twig', ['userList' => $userList, 'maxPage' => $maxPage, 'searchedUser' => $userName]);
+        return $this->render('@stadlineapp/showRepos.html.twig', ['repoList' => $repoList, 'maxPage' => $maxPage, 'username' => $userName]);
     }
 
 }

@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    <h1>Liste des repository gitHub de l'utilisateur {{username}}</h1>
+    <ul>
+        {% for repo in repoList %}
+            <li><a href="{#{{ path('stadlineapp.show_repos', {'userName': user.login}) }}#}">{{ repo.name|e }}</a></li>
+            {% endfor %}
+    </ul>
+    {% if maxPage>1 %}
+        {% for i in 1..maxPage %}
+            <a href="{{ path('stadlineapp.show_repos', {'userName': username,'page': i}) }}">{{ i }}</a>
+        {% endfor %}
+    {% endif %}
+{% endblock %}
