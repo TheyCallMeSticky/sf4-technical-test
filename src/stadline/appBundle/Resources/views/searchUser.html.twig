@@ -1,14 +1,19 @@
 {% extends 'base.html.twig' %}
 {% block body %}
 
-    <h1>Liste des utilisateurs gitHub</h1>
-    <ul>
-        {% for user in userList %}
-            <li><a href="{{ path('stadlineapp.show_repos', {'userName': user.login}) }}">{{ user.login|e }}</a></li>
-            {% endfor %}
-    </ul>
-    {% if maxPage>1 %}
-        {% for i in 1..maxPage %}
+    <h1>Liste des utilisateurs GitHub avec le mot "{{searchedUser}}"</h1>
+    {% if userList is not empty %}
+        <ul>
+
+            {% for user in userList %}
+                <li><a href="{{ path('stadlineapp.show_repos', {'userName': user.login}) }}">{{ user.login|e }}</a></li>
+                {% endfor %}
+        </ul>
+    {% else %}
+        pas de resultats.
+    {% endif %}
+    {% if maxPage>1  %}
+        {% for i in 1..maxPage if i != current_page  %}
             <a href="{{ path('stadlineapp.search_user', {'searchedUser': searchedUser,'page': i}) }}">{{ i }}</a>
         {% endfor %}
     {% endif %}
