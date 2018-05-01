@@ -1,0 +1,22 @@
+{% block body %}
+    <h1>Liste des Commentaires sur le dépot {{repo.name}}</h1>
+    {% if commentsList is not empty %}
+        <ul>
+            {% for comment in commentsList %}
+                <div>
+                    <span>Le {{comment.createdAt.date|date('Y-m-d H:i:s')}}, {{comment.username}} a écrit : </span>
+                    <p>{{comment.comment}}</p>
+                </div>
+            {% endfor %}
+        </ul>
+    {% else %}
+        pas encore de commentaires.
+    {% endif %}
+
+
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+
+
+{% endblock %}

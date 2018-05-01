@@ -7,6 +7,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use stadline\appBundle\Service\GitHubFinder;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use stadline\appBundle\Entity\Comment;
 
 class DefaultController extends Controller {
 
@@ -52,8 +54,6 @@ class DefaultController extends Controller {
         $githubservice = new GitHubFinder();
         $repoList = $githubservice->getRepos($userName, $page);
 
-        var_dump($repoList);
-        die;
 
         $maxPage = $githubservice->getNbPage();
 
@@ -66,10 +66,44 @@ class DefaultController extends Controller {
     }
 
     /**
-     * @Route("/repo/commentaires/{repo}/{page}", name="stadlineapp.comment_repos" )
+     * @Route("/repo/commentaires/{repo_id}", name="stadlineapp.comment_repos" )
      */
-    public function seeComments() {
+    public function seeComments(Request $request) {
 
+        $repo_id = $request->attributes->get('repo_id');
+
+        $githubservice = new GitHubFinder();
+        $repo = $githubservice->getRepoById($repo_id);
+
+        $commentsList = $this->getDoctrine()->getRepository(Comment::class)->findBy(['repositoryId' => $repo_id]);
+
+
+        $username = $this->getUser()->getUserName();
+
+        $comment = new Comment();
+        $comment->setUsername($username);
+        $comment->setRepositoryId($repo_id);
+
+        $form = $this->createFormBuilder($comment)
+                ->add('comment', TextType::class, array('label' => 'commentaire : '))
+                ->add('save', SubmitType::class, array('label' => 'Ajouter un commentaire'))
+                ->getForm();
+
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $comment = $form->getData();
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($comment);
+            $entityManager->flush();
+        }
+        return $this->render('@stadlineapp/seeComments.html.twig', array(
+                    'form' => $form->createView(),
+                    'commentsList' => $commentsList,
+                    'repo' => $repo,
+        ));
     }
 
 }

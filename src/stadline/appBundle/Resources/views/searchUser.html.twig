@@ -6,8 +6,10 @@
         <ul>
 
             {% for user in userList %}
-                <li><a href="{{ path('stadlineapp.show_repos', {'userName': user.login}) }}">{{ user.login|e }}</a></li>
-                {% endfor %}
+                <li>
+                    <a href="{{ path('stadlineapp.show_repos', {'userName': user.login}) }}">{{ user.login|e }}</a>
+                </li>
+            {% endfor %}
         </ul>
     {% else %}
         pas de resultats.

@@ -4,8 +4,10 @@
     {% if repoList is not empty %}
         <ul>
             {% for repo in repoList %}
-                <li><a href="{#{{ path('stadlineapp.comment_repos', {'userName': user.login}) }}#}">{{ repo.name|e }}</a></li>
-                {% endfor %}
+                <li>
+                    <a href="{{ path('stadlineapp.comment_repos', {'repo_id': repo.id}) }}">{{ repo.name|e }}</a>
+                </li>
+            {% endfor %}
         </ul>
     {% else %}
         pas de resultats.
