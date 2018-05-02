@@ -12,11 +12,15 @@ use stadline\appBundle\Entity\Comment;
 
 class DefaultController extends Controller {
 
+    /**
+     * @Route("/", name="stadlineapp.homepage" )
+     */
     public function indexAction(Request $request) {
         $user = $this->getUser();
         $defaultData = array('message' => 'rechercher un utilisateur');
         $form = $this->createFormBuilder($defaultData)
-                ->add('userSearch', TextType::class)
+                ->add('userSearch', TextType::class, ['attr' => ['class' => "form-control", 'placeholder' => "User Github à chercher"], 'label' => false])
+                ->add('save', SubmitType::class, array('label' => 'find', 'attr' => ['class' => "btn btn-dark"]))
                 ->getForm();
 
         $form->handleRequest($request);
@@ -39,7 +43,7 @@ class DefaultController extends Controller {
 
         $maxPage = $githubservice->getNbPage();
 
-        return $this->render('@stadlineapp/searchUser.html.twig', [
+        return $this->render('@stadlineapp/Default/searchUser.html.twig', [
                     'userList' => $userList,
                     'maxPage' => $maxPage,
                     'searchedUser' => $searchedUser,
@@ -57,7 +61,7 @@ class DefaultController extends Controller {
 
         $maxPage = $githubservice->getNbPage();
 
-        return $this->render('@stadlineapp/showRepos.html.twig', [
+        return $this->render('@stadlineapp/Default/showRepos.html.twig', [
                     'repoList' => $repoList,
                     'maxPage' => $maxPage,
                     'username' => $userName,
@@ -85,8 +89,8 @@ class DefaultController extends Controller {
         $comment->setRepositoryId($repo_id);
 
         $form = $this->createFormBuilder($comment)
-                ->add('comment', TextType::class, array('label' => 'commentaire : '))
-                ->add('save', SubmitType::class, array('label' => 'Ajouter un commentaire'))
+                ->add('comment', TextType::class, ['label' => 'commentaire : ', 'attr' => ['class' => "form-control", 'placeholder' => "commentaire"]])
+                ->add('save', SubmitType::class, ['label' => 'Ajouter un commentaire', 'attr' => ['class' => "btn btn-dark"]])
                 ->getForm();
 
 
@@ -99,7 +103,7 @@ class DefaultController extends Controller {
             $entityManager->persist($comment);
             $entityManager->flush();
         }
-        return $this->render('@stadlineapp/seeComments.html.twig', array(
+        return $this->render('@stadlineapp/Default/seeComments.html.twig', array(
                     'form' => $form->createView(),
                     'commentsList' => $commentsList,
                     'repo' => $repo,

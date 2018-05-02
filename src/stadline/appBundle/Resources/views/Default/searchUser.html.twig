@@ -1,0 +1,31 @@
+{% extends '@stadlineapp/layout.html.twig' %}
+{% block body %}
+
+    <h1>Liste des utilisateurs GitHub avec le mot "{{searchedUser}}"</h1>
+    {% if userList is not empty %}
+        <ul class="nav">
+
+            {% for user in userList %}
+                <li  class="nav-item">
+                    <a class="nav-link active" href="{{ path('stadlineapp.show_repos', {'userName': user.login}) }}">{{ user.login|e }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        pas de resultats.
+    {% endif %}
+    {% if maxPage>1  %}
+        <div class="col-md-6">
+            <div class="title">
+                <h3>Pagination</h3>
+            </div>
+            <ul class="pagination pagination-primary">
+                {% for i in 1..maxPage   %}
+                    <li class="{%if i == current_page %}active {% endif %}page-item">
+                        <a href="{{ path('stadlineapp.search_user', {'searchedUser': searchedUser,'page': i}) }}" class="page-link">{{ i }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+{% endblock %}

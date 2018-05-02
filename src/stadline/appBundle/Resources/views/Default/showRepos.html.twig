@@ -1,0 +1,31 @@
+{% extends '@stadlineapp/layout.html.twig' %}
+{% block body %}
+    <h1>Liste des repository gitHub de l'utilisateur {{username}}</h1>
+    {% if repoList is not empty %}
+        <ul  class="nav">
+            {% for repo in repoList %}
+                <li   class="nav-item">
+                    <a  class="nav-link active" href="{{ path('stadlineapp.comment_repos', {'repo_id': repo.id}) }}">{{ repo.name|e }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        pas de resultats.
+    {% endif %}
+    {% if maxPage>1 %}
+
+        <div class="col-md-6">
+            <div class="title">
+                <h3>Pagination</h3>
+            </div>
+            <ul class="pagination pagination-primary">
+                {% for i in 1..maxPage   %}
+                    <li class="{%if i == current_page %}active {% endif %}page-item">
+                        <a href="{{ path('stadlineapp.show_repos', {'userName': username,'page': i}) }}" class="page-link">{{ i }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+    {% endif %}
+{% endblock %}
