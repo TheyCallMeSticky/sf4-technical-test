@@ -16,6 +16,12 @@ class GitHubFinder {
 
     }
 
+    /**
+     * recherche les utilisateurs par nom
+     * @param string $username
+     * @param int $page
+     * @return array
+     */
     public function getUsers($username, $page = 1) {
 
         $query = array('q' => 'type:user%20' . $username . '%20in:login&page=' . $page);
@@ -31,6 +37,10 @@ class GitHubFinder {
         return $userList;
     }
 
+    /**
+     * retourne le nombre de page en se basant sur le header du retour de la recherche qithub
+     * @return int
+     */
     public function getNbPage() {
 
         $pageMax = 1;
@@ -47,6 +57,12 @@ class GitHubFinder {
         return $pageMax;
     }
 
+    /**
+     * vas chercher les repository lié au user
+     * @param string $username
+     * @param int $page
+     * @return array
+     */
     public function getRepos($username, $page = 1) {
         $query = [];
         $search = 'users/' . $username . '/repos?' . $page;
@@ -54,11 +70,22 @@ class GitHubFinder {
         return $this->data;
     }
 
+    /**
+     * requete l'api github
+     * @param string $search : l'url du module qithub à appeler
+     * @param array $query : paramètres de recherche
+     * @return StdClass
+     */
     public function request($search, $query) {
         $headers = array('Accept' => 'application/json');
         return Unirest\Request::get('https://api.github.com/' . $search, $headers, $query);
     }
 
+    /**
+     * recherche des data sur github
+     * @param string $search
+     * @param array $query
+     */
     public function getData($search, $query) {
         $limit = 10;
         $i = 0;
@@ -70,6 +97,11 @@ class GitHubFinder {
         } while (!array_key_exists('Link', $this->header) && $limit < $i);
     }
 
+    /**
+     * recherche un repository par ID
+     * @param int $repo_id
+     * @return array
+     */
     public function getRepoById($repo_id) {
 
         $query = [];

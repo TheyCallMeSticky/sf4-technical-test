@@ -9,6 +9,7 @@ use stadline\appBundle\Service\GitHubFinder;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use stadline\appBundle\Entity\Comment;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class DefaultController extends Controller {
 
@@ -36,6 +37,7 @@ class DefaultController extends Controller {
 
     /**
      * @Route("/search-user/{searchedUser}/{page}", name="stadlineapp.search_user" )
+     * @Security("has_role('ROLE_USER')")
      */
     public function searchUser($searchedUser, $page = 1) {
         $githubservice = new GitHubFinder();
@@ -53,6 +55,7 @@ class DefaultController extends Controller {
 
     /**
      * @Route("/showRepos/{userName}/{page}", name="stadlineapp.show_repos" )
+     * @Security("has_role('ROLE_USER')")
      */
     public function showRepos($userName, $page = 1) {
         $githubservice = new GitHubFinder();
@@ -71,6 +74,7 @@ class DefaultController extends Controller {
 
     /**
      * @Route("/repo/commentaires/{repo_id}", name="stadlineapp.comment_repos" )
+     * @Security("has_role('ROLE_USER')")
      */
     public function seeComments(Request $request) {
 

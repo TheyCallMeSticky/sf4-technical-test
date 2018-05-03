@@ -48,3 +48,14 @@ https://api.github.com/search/users
 * Envoyez le lien avec le projet à recrutement@stadline.com.
 
 **Bonne chance !**
+
+
+
+Déploiement :
+1) clone du dépot
+2) composer install
+    - après avoir créé votre vhost, il faut enregistrer votre nom de domaine dans github afin de récuperer client_id et client_secret
+3) bin/console doctrine:database:create
+4) bin/console doctrine:schema:update -f
+5) enjoy
+
